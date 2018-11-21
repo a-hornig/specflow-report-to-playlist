@@ -45,7 +45,7 @@ namespace SpecFlowReport2Playlist
                 var p3 = p2.Replace(" ", "+");
                 var p4 = pArr[0].Replace(" ", "+").ReplaceRegExMatch(@"[:,\'\[\]/]", (m) => Uri.HexEscape(Convert.ToChar(m.Value)).ToLower());
                 
-                Console.WriteLine($"<Add Test=\"{p1}.{p2}.#()::Target:chrome/TestAssembly:{p1}/Feature:{p3}/Scenario:{p4}\" />");
+                Console.WriteLine($"<Add Test=\"{p1}.{p2}.#()::TestAssembly:{p1}/Feature:{p3}/Scenario:{p4}\" />");
             }
 
         }

@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+
+
+<html>
+	<head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<title>TestProject1 Test Execution Report</title>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript">
+            /**
+            * jQuery.fn.sortElements
+            * --------------
+            * #author James Padolsey (http://james.padolsey.com)
+            * #version 0.11
+            * #updated 18-MAR-2010
+            * #url https://raw.github.com/jamespadolsey/jQuery-Plugins/master/sortElements/jquery.sortElements.js
+            * --------------
+            * #param Function comparator:
+            *   Exactly the same behaviour as [1,2,3].sort(comparator)
+            *   
+            * #param Function getSortable
+            *   A function that should return the element that is
+            *   to be sorted. The comparator will run on the
+            *   current collection, but you may want the actual
+            *   resulting sort to occur on a parent or another
+            *   associated element.
+            *   
+            *   E.g. $('td').sortElements(comparator, function(){
+            *      return this.parentNode; 
+            *   })
+            *   
+            *   The <td>'s parent (<tr>) will be sorted instead
+            *   of the <td> itself.
+            */
+            jQuery.fn.sortElements = (function () {
+
+                var sort = [].sort;
+
+                return function (comparator, getSortable) {
+
+                    getSortable = getSortable || function () { return this; };
+
+                    var placements = this.map(function () {
+
+                        var sortElement = getSortable.call(this),
+                parentNode = sortElement.parentNode,
+
+                        // Since the element itself will change position, we have
+                        // to have some way of storing it's original position in
+                        // the DOM. The easiest way is to have a 'flag' node:
+                nextSibling = parentNode.insertBefore(
+                    document.createTextNode(''),
+                    sortElement.nextSibling
+                );
+
+                        return function () {
+
+                            if (parentNode === this) {
+                                throw new Error(
+                        "You can't sort elements if any one is a descendant of another."
+                    );
+                            }
+
+                            // Insert before flag:
+                            parentNode.insertBefore(this, nextSibling);
+                            // Remove flag:
+                            parentNode.removeChild(nextSibling);
+
+                        };
+
+                    });
+
+                    return sort.call(this, comparator).each(function (i) {
+                        placements[i].call(getSortable.call(this));
+                    });
+
+                };
+
+            })();
+        </script>
+        <script type="text/javascript">
+            jQuery.fn.setBarSizes = (function () {
+                return function (metricName, maxBarSize, min) {
+                    var max = Math.max.apply(Math, $.makeArray($(this).map(function () { return Number($(this).attr('data-sr-' + metricName)); })));
+                    var scale = 1.0;
+                    while (max > 0.0 && max <= 10.0) {
+                        scale = scale * 10.0;
+                        max = max * 10.0;
+                    }
+                    max = (Math.ceil(max / 2) * 2) / scale;
+
+                    this.each(function () {
+                        var barAnchor = $(this).find('a');
+                        var actual = $(this).attr('data-sr-' + metricName);
+                        var newHeight = Math.max(Math.round(maxBarSize * (actual - min) / (max - min)), 2);
+                        barAnchor.css({ height: newHeight });
+                    });
+
+                    var unit = "";
+                    if (metricName.substr(metricName.length - 4, 4) === "time")
+                        unit = "s";
+
+                    $('#testview .scale-min-label').each(function () {
+                        $(this).text(min.toString() + unit);
+                    });
+                    $('#testview .scale-max-label').each(function () {
+                        $(this).text(max.toString() + unit);
+                    });
+                    var mid = max / 2;
+                    $('#testview .scale-mid-label').each(function () {
+                        $(this).text(mid.toString() + unit);
+                    });
+                };
+            })();
+
+            function getComparer(metricName, isDesc) {
+                return function (a, b) {
+                    var aNumber = Number($(a).attr('data-sr-' + metricName));
+                    var bNumber = Number($(b).attr('data-sr-' + metricName));
+                    var result = aNumber > bNumber ? 1 : (aNumber < bNumber ? -1 : 0);
+                    if (isDesc)
+                        result = -1 * result;
+
+                    if (result == 0 && metricName != "order")
+                        result = getComparer("order", false)(a, b);
+
+                    return result;
+                };
+            }
+
+            var currentSort = "";
+            function doSort(allowToggleDesc) {
+                var newSort = $("input[name='barSortOrder']:checked").val();
+                if (allowToggleDesc && currentSort == newSort) {
+                    $('#barSortDesc').click();
+                    doSort(false);
+                    return;
+                }
+                currentSort = newSort;
+                $('#testview td.testview-item').sortElements(getComparer(newSort, $('#barSortDesc').is(':checked')));
+            }
+
+
+            function doSetHeights(allowSort) {
+                var selectedMetric = $("input[name='barHeight']:checked").val();
+                $('#testview td.testview-item').setBarSizes(selectedMetric, 60, 0.0);
+
+                if (allowSort && currentSort != selectedMetric) {
+                    var $radios = $("input[name='barSortOrder']");
+                    $radios.filter('[value=' + selectedMetric + ']').attr('checked', true);
+                    $("#barSortDesc").attr("checked", [true]);
+                    doSort(false);
+                }
+            }
+
+            $(document).ready(function () {
+                $("input[name='barSortOrder']").click(function () { doSort(true); return true; });
+                $("input[name='barSortDesc']").change(function () { doSort(false); });
+                $("input[name='barHeight']").change(function () { doSetHeights(true); });
+
+                doSort(false);
+                doSetHeights(false);
+
+                $("div.scrollable").css({ 'overflow': 'auto' });
+            });
+        </script>
+
+        <style type="text/css">
+            body 
+            {
+                color: #000000;
+                font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif;
+                line-height: 130%;
+            }
+            h1 {
+                font-family: Trebuchet MS,Liberation Sans,DejaVu Sans,sans-serif;
+                font-size: 170%;
+                font-weight: bold;
+            }            
+            h2 {
+                font-family: Trebuchet MS,Liberation Sans,DejaVu Sans,sans-serif;
+                font-size: 130%;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }            
+            h3 {
+                font-family: Trebuchet MS,Liberation Sans,DejaVu Sans,sans-serif;
+                font-size: 120%;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }            
+            a.bar
+            {
+                text-decoration: none;
+                display: block;
+                line-height: 1px;
+            }
+            .description
+            {
+                font-style: italic;
+            }
+            .log 
+            {
+                width: 600px;
+                white-space: pre-wrap;
+                display: block;
+                margin: 0px;
+            }
+            .errorMessage 
+            {
+                width: 600px;
+                color: Red;
+                font-weight: bold;
+            }
+            .stackTrace 
+            {
+                width: 600px;
+                white-space: pre-wrap;
+                font-style: italic;
+                color: Red;
+                display: block;
+            }
+            table.testEvents
+            {
+                border: solid 1px #e8eef4;
+                border-collapse: collapse;
+            }
+            table.testEvents td
+            {
+                vertical-align: top;
+                padding: 5px;
+                border: solid 1px #e8eef4;
+            }
+            table.testEvents th
+            {
+                padding: 6px 5px;
+                text-align: left;
+                background-color: #e8eef4;
+                border: solid 1px #e8eef4;                
+            }
+            .comment
+            {
+                font-style: italic;
+                font-size: smaller;
+            }
+            .startupBar
+            {
+                background-color: #EEEEEE;
+                cursor: default;
+            }
+            
+            .colorSucceeded
+            {
+                background-color: #90ED7B;
+            }
+            .colorIgnored
+            {
+                background-color: #FFFF85;
+            }
+            .colorPending
+            {
+                background-color: #D47BED;
+            }
+            .colorNothingToRun
+            {
+                background-color: #CCCCFF;
+            }
+            .colorSkipped
+            {
+                background-color: #CCCCFF;
+            }
+            .colorInconclusive
+            {
+                background-color: #7BEDED;
+            }
+            .colorCleanupFailed
+            {
+                background-color: #FFCCCC;
+            }
+            .colorRandomlyFailed
+            {
+                background-color: #EDB07B;
+            }
+            .colorFailed
+            {
+                background-color: #ED5F5F;
+            }
+            .colorInitializationFailed
+            {
+                background-color: #FF0000;
+            }
+            .colorFrameworkError
+            {
+                background-color: #FF0000;
+            }
+            ul.subNodeLinks
+            {
+                padding-left: 20px;
+                margin: 0px;
+            }
+            ul.subNodeLinks li
+            {
+                list-style: none;
+            }
+            
+            /* views general */
+            div.scrollable
+            {
+                /*overflow: auto; - thsi has to be set from js, because of an IE9 bug */
+            }
+            div.viewbox
+            {
+                position: relative;
+                border: 3px solid #e8eef4;
+            }
+            div.viewbox table
+            {
+                border: 0px;
+            }
+                        
+            /* testview */
+            #testview
+            {
+                padding-top: 23px;
+            }
+            
+            table.testview-items td
+            {
+                vertical-align: bottom;
+                padding: 0px 1px 0px 1px;
+            }
+            td.right-padding, td.left-padding
+            {
+                width: 25px;
+                min-width: 25px;
+            }
+            table.testview-items a.bar
+            {
+                width: 5px;
+            }
+            table.testview-items tr.testview-items-row
+            {
+                height: 60px;
+            }
+            
+            /* scale */
+            table.vertical-scale 
+            {
+                position: absolute;
+                top: 23px;
+                left: 0px;
+                width: 100%;
+                z-index: -100;
+            }
+            table.vertical-scale td, tr.horizontal-scale td
+            {
+                font-size: 60%;
+                line-height: normal;
+            }
+            table.vertical-scale tr.scale-max, table.vertical-scale tr.scale-mid 
+            {
+                height: 30px;
+            }
+            tr.horizontal-scale, table.vertical-scale tr.scale-min 
+            {
+                height: 12px;
+            }
+            
+            td.scale-max-label, td.scale-mid-label, td.scale-min-label
+            {
+                border-top: solid 1px #E6E6E6;
+                text-align: left;
+                vertical-align: top;
+            }
+            td.scale-10-label
+            {
+                border-left: solid 1px #E6E6E6;
+                text-align: left;
+                vertical-align: bottom;
+                padding-left: 1px;
+            }
+            tr.scale-mid td, tr.scale-min td, tr.scale-max td
+            {
+                border-top: solid 1px #E6E6E6;
+            }
+           
+            
+            /* bar-control */
+            #bar-control
+            {
+                font-size: 60%;
+                line-height: normal;
+                position: absolute;
+                right: 0px;
+                top: 0px;
+            }
+            #bar-control label
+            {
+                font-weight: bold;
+                vertical-align: middle;
+            }
+            #bar-control .option
+            {
+                vertical-align: middle;
+                text-transform: lowercase;
+            }
+            #bar-control input[type="checkbox"]
+            {
+                padding: 0 2px 0 3px;
+            }
+            #bar-control input
+            {
+                vertical-align: top;
+                height: 12px;
+                margin: 0px;
+                padding: 0px;
+            }
+            #bar-control div
+            {
+                float: right;
+                margin: 3px 5px 3px 5px;
+            }
+            
+            
+            /* timeline view */
+            #timelineview
+            {
+                padding-top: 5px;
+            }
+            table.timelineview a
+            {
+                height: 20px;
+            }
+            table.timelineview td
+            {
+                vertical-align: bottom;
+                padding: 0px 1px 0px 0px;
+                border: 0px;
+            }
+            tr.thread-items-row
+            {
+                height: 25px;
+            }
+            tr.thread-items-row td
+            {
+                vertical-align: bottom;
+            }
+            td.thread-label
+            {
+                padding: 0px 6px 0px 6px;
+                text-align: right;
+                line-height: 18px;
+                vertical-align: bottom;
+            }
+            th.thread-label
+            {
+                padding: 3px 6px 0px 6px;
+                line-height: 18px;
+                text-align: left;
+                vertical-align: bottom;
+            }
+        </style>
+	</head>
+	<body>
+        <h1>TestProject1 Test Execution Report</h1>
+        <ul>
+            <li>Project: TestProject1</li>
+            <li>Configuration: TestProject1</li>
+            <li>Test Assemblies: TestProject1.dll</li>
+            <li>Start Time: 21/11/2018 9:20:18 PM</li>
+            <li>Duration: 00:00:36.3610798</li>
+            <li>Test Threads: 5</li>
+        </ul>
+
+        <h2>Result: 1 failed</h2>
+        <table class="testEvents">
+                <tr>
+        <th colspan="2">Success rate</th>
+        <th>Tests</th>
+        <th>Succeeded</th>
+        <th>Failed</th>
+        <th>Pending</th>
+        <th>Ignored</th>
+        <th>Skipped</th>
+    </tr>
+
+                <tr>
+            <td>
+            75%
+    </td>
+    <td>
+        <table class="timelineview" cellpadding="0" cellspacing="0">
+            <tr>
+                    <td>
+                        <a class="bar colorSucceeded" 
+                           style="width: 149px;" 
+                           title="3 succeeded" 
+                                                   />
+                    </td>
+                    <td>
+                        <a class="bar colorFailed" 
+                           style="width: 49px;" 
+                           title="1 failed" 
+                                                          href="#error_summary"
+                        />
+                    </td>
+            </tr>
+            
+        </table>
+    </td>
+    <td>4</td>
+    <td>3</td>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+
+    </tr>
+
+        </table>
+        
+        <h2>Test Timeline Summary</h2>
+
+        <div id="timelineview" class="viewbox">
+            <div class="scrollable">
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th class="thread-label" colspan="2">thread</th>
+                    </tr>
+                        <tr class="thread-items-row">
+                            <td class="thread-label" title="Machine: MEDION-PC">#0</td>
+                            <td colspan="1">
+                                <table class="timelineview" cellpadding="0" cellspacing="0">
+                                    <tr>
+
+                                            <td>
+        <a
+            class="bar startupBar" 
+            style="width: 3px;" 
+                title="test thread startup" 
+        >&nbsp;</a>
+    </td>
+
+    <td>
+        <a
+            class="bar colorSucceeded" 
+            style="width: 21px;" 
+                title="Add, edit and delete to-do items (in ToDo)" 
+                href="#t164426555.0"
+        >&nbsp;</a>
+    </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr class="thread-items-row">
+                            <td class="thread-label" title="Machine: MEDION-PC">#1</td>
+                            <td colspan="1">
+                                <table class="timelineview" cellpadding="0" cellspacing="0">
+                                    <tr>
+
+                                            <td>
+        <a
+            class="bar startupBar" 
+            style="width: 3px;" 
+                title="test thread startup" 
+        >&nbsp;</a>
+    </td>
+
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr class="thread-items-row">
+                            <td class="thread-label" title="Machine: MEDION-PC">#2</td>
+                            <td colspan="1">
+                                <table class="timelineview" cellpadding="0" cellspacing="0">
+                                    <tr>
+
+                                            <td>
+        <a
+            class="bar startupBar" 
+            style="width: 3px;" 
+                title="test thread startup" 
+        >&nbsp;</a>
+    </td>
+
+    <td>
+        <a
+            class="bar colorSucceeded" 
+            style="width: 19px;" 
+                title="Complete, re-open and clear completed to-do items (in ToDo)" 
+                href="#t-1074980011.0"
+        >&nbsp;</a>
+    </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr class="thread-items-row">
+                            <td class="thread-label" title="Machine: MEDION-PC">#3</td>
+                            <td colspan="1">
+                                <table class="timelineview" cellpadding="0" cellspacing="0">
+                                    <tr>
+
+                                            <td>
+        <a
+            class="bar startupBar" 
+            style="width: 3px;" 
+                title="test thread startup" 
+        >&nbsp;</a>
+    </td>
+
+    <td>
+        <a
+            class="bar colorSucceeded" 
+            style="width: 23px;" 
+                title="Complete, re-open and clear completed to-do items with screenshot comparison (in ToDo)" 
+                href="#t-571706640.0"
+        >&nbsp;</a>
+    </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr class="thread-items-row">
+                            <td class="thread-label" title="Machine: MEDION-PC">#4</td>
+                            <td colspan="1">
+                                <table class="timelineview" cellpadding="0" cellspacing="0">
+                                    <tr>
+
+                                            <td>
+        <a
+            class="bar startupBar" 
+            style="width: 3px;" 
+                title="test thread startup" 
+        >&nbsp;</a>
+    </td>
+
+    <td>
+        <a
+            class="bar colorFailed" 
+            style="width: 19px;" 
+                title="Add, edit and delete to-do items with screenshot comparison (in ToDo)" 
+                href="#t515784203.0"
+        >&nbsp;</a>
+    </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    <tr class="horizontal-scale">
+                        <td>&nbsp;</td>
+                        <td class="scale-10-label">0s</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <h2>Test Result View</h2>
+        <div id="testview" class="viewbox">
+            <div id="bar-control">
+                <div id="bar-control-sort">
+                    <label>sort by:</label>
+                    <span class="option"><input type="radio" name="barSortOrder" value="exectime" />Time</span>
+                    <span class="option"><input type="radio" name="barSortOrder" value="acttime" />Act Time</span>
+                    <span class="option"><input type="radio" name="barSortOrder" value="order" />Execution</span>
+                    <span class="option"><input type="radio" name="barSortOrder" value="rescode" checked="checked" />Result</span>
+                    <span class="option"><input type="checkbox" name="barSortDesc" id="barSortDesc" checked="checked" />desc</span>
+                </div>
+                <div id="bar-control-heights">
+                    <label>heights:</label>
+                    <span class="option"><input type="radio" checked="checked" name="barHeight" value="exectime" />Time</span>
+                    <span class="option"><input type="radio" name="barHeight" value="acttime" />Act Time</span>
+                    
+                </div>
+            </div>
+            <table class="vertical-scale" cellpadding="0" cellspacing="0">
+                <tr class="scale-max">
+                    <td class="left-padding scale-max-label">&nbsp;</td>
+                    <td colspan="4">&nbsp;</td>
+                    <td class="right-padding">&nbsp;</td>
+                </tr>
+                <tr class="scale-mid">
+                    <td class="left-padding scale-mid-label">&nbsp;</td>
+                    <td colspan="4">&nbsp;</td>
+                    <td class="right-padding">&nbsp;</td>
+                </tr>
+                <tr class="scale-min">
+                    <td class="left-padding scale-min-label">&nbsp;</td>
+                    <td colspan="4">&nbsp;</td>
+                    <td class="right-padding">&nbsp;</td>
+                </tr>
+            </table>
+            <div class="scrollable">
+                <table class="testview-items" cellpadding="0" cellspacing="0">
+                    <tr class="testview-items-row">
+                        <td class="left-padding">&nbsp;</td>
+    <td class="testview-item" 
+        data-sr-exectime="32.886881" data-sr-rescode="110" data-sr-order="3" data-sr-acttime="13.438">
+        <a
+            class="bar colorSucceeded" 
+            style="height: 55px;"
+            title="Add, edit and delete to-do items (in ToDo)"
+            href="#t164426555.0">&nbsp;</a>
+    </td>
+    <td class="testview-item" 
+        data-sr-exectime="30.998773" data-sr-rescode="110" data-sr-order="2" data-sr-acttime="9.356">
+        <a
+            class="bar colorSucceeded" 
+            style="height: 52px;"
+            title="Complete, re-open and clear completed to-do items (in ToDo)"
+            href="#t-1074980011.0">&nbsp;</a>
+    </td>
+    <td class="testview-item" 
+        data-sr-exectime="35.6830409" data-sr-rescode="110" data-sr-order="1" data-sr-acttime="9.38">
+        <a
+            class="bar colorSucceeded" 
+            style="height: 60px;"
+            title="Complete, re-open and clear completed to-do items with screenshot comparison (in ToDo)"
+            href="#t-571706640.0">&nbsp;</a>
+    </td>
+    <td class="testview-item" 
+        data-sr-exectime="31.1047791" data-sr-rescode="440" data-sr-order="0" data-sr-acttime="11.686">
+        <a
+            class="bar colorFailed" 
+            style="height: 52px;"
+            title="Add, edit and delete to-do items with screenshot comparison (in ToDo)"
+            href="#t515784203.0">&nbsp;</a>
+    </td>
+                        <td class="right-padding">&nbsp;</td>
+                    </tr>
+                    <tr class="horizontal-scale">
+                        <td class="left-padding">&nbsp;</td>
+                        <td colspan="10">&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <h2>Feature Summary</h2>
+        <table class="testEvents">
+                <tr>
+            <th>Feature</th>
+        <th colspan="2">Success rate</th>
+        <th>Tests</th>
+        <th>Succeeded</th>
+        <th>Failed</th>
+        <th>Pending</th>
+        <th>Ignored</th>
+        <th>Skipped</th>
+            <th>Duration</th>
+    </tr>
+
+    <tr>
+            <td><a href="#f-1981565170">ToDo</a></td>
+            <td>
+            75%
+    </td>
+    <td>
+        <table class="timelineview" cellpadding="0" cellspacing="0">
+            <tr>
+                    <td>
+                        <a class="bar colorSucceeded" 
+                           style="width: 149px;" 
+                           title="3 succeeded" 
+                                                   />
+                    </td>
+                    <td>
+                        <a class="bar colorFailed" 
+                           style="width: 49px;" 
+                           title="1 failed" 
+                                                          href="#error_summary"
+                        />
+                    </td>
+            </tr>
+            
+        </table>
+    </td>
+    <td>4</td>
+    <td>3</td>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+        <td>00:02:10.6734740</td>
+
+    </tr>
+        </table>
+
+        <a name="error_summary" />
+        <h2>Error Summary</h2>
+        <table class="testEvents">
+                <tr>
+            <th>Test</th>
+        <th colspan="2">Success rate</th>
+        <th>Tests</th>
+        <th>Succeeded</th>
+        <th>Failed</th>
+        <th>Pending</th>
+        <th>Ignored</th>
+        <th>Skipped</th>
+    </tr>
+
+                <tr>
+                    <td>
+                        <a href="#t515784203.0">Add, edit and delete to-do items with screenshot comparison (in TestProject1, ToDo)</a>
+                    </td>
+                        <td>
+            0%
+    </td>
+    <td>
+        <table class="timelineview" cellpadding="0" cellspacing="0">
+            <tr>
+                    <td>
+                        <a class="bar colorFailed" 
+                           style="width: 199px;" 
+                           title="1 failed" 
+                                                          href="#error_summary"
+                        />
+                    </td>
+            </tr>
+            
+        </table>
+    </td>
+    <td>1</td>
+    <td>0</td>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+
+                </tr>
+                <tr>
+                    <td colspan="9" style="padding-left: 20px;"><div class="errorMessage">Error: Images are different.</div></td>
+                </tr>
+        </table>
+
+        <h2>Scenario Summary</h2>
+            <a name="f-1981565170" />
+            <h3>Feature: ToDo</h3>
+            <table class="testEvents">
+                    <tr>
+            <th>Test</th>
+        <th colspan="2">Success rate</th>
+        <th>Tests</th>
+        <th>Succeeded</th>
+        <th>Failed</th>
+        <th>Pending</th>
+        <th>Ignored</th>
+        <th>Skipped</th>
+            <th>Duration</th>
+    </tr>
+
+                    <tr>
+                        <td>
+                                    <a href="#t164426555.0">Scenario: Add, edit and delete to-do items</a>
+
+                        </td>
+                        
+                            <td>
+            100%
+    </td>
+    <td>
+        <table class="timelineview" cellpadding="0" cellspacing="0">
+            <tr>
+                    <td>
+                        <a class="bar colorSucceeded" 
+                           style="width: 199px;" 
+                           title="1 succeeded" 
+                                                   />
+                    </td>
+            </tr>
+            
+        </table>
+    </td>
+    <td>1</td>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+        <td>00:00:32.8868810</td>
+
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                                    <a href="#t-1074980011.0">Scenario: Complete, re-open and clear completed to-do items</a>
+
+                        </td>
+                        
+                            <td>
+            100%
+    </td>
+    <td>
+        <table class="timelineview" cellpadding="0" cellspacing="0">
+            <tr>
+                    <td>
+                        <a class="bar colorSucceeded" 
+                           style="width: 199px;" 
+                           title="1 succeeded" 
+                                                   />
+                    </td>
+            </tr>
+            
+        </table>
+    </td>
+    <td>1</td>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+        <td>00:00:30.9987730</td>
+
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                                    <a href="#t515784203.0">Scenario: Add, edit and delete to-do items with screenshot comparison</a>
+
+                        </td>
+                        
+                            <td>
+            0%
+    </td>
+    <td>
+        <table class="timelineview" cellpadding="0" cellspacing="0">
+            <tr>
+                    <td>
+                        <a class="bar colorFailed" 
+                           style="width: 199px;" 
+                           title="1 failed" 
+                                                          href="#error_summary"
+                        />
+                    </td>
+            </tr>
+            
+        </table>
+    </td>
+    <td>1</td>
+    <td>0</td>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+        <td>00:00:31.1047791</td>
+
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                                    <a href="#t-571706640.0">Scenario: Complete, re-open and clear completed to-do items with screenshot comparison</a>
+
+                        </td>
+                        
+                            <td>
+            100%
+    </td>
+    <td>
+        <table class="timelineview" cellpadding="0" cellspacing="0">
+            <tr>
+                    <td>
+                        <a class="bar colorSucceeded" 
+                           style="width: 199px;" 
+                           title="1 succeeded" 
+                                                   />
+                    </td>
+            </tr>
+            
+        </table>
+    </td>
+    <td>1</td>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+        <td>00:00:35.6830409</td>
+
+                        
+                    </tr>
+            </table>
+
+        <h2>Execution Details</h2>
+            <a name="t515784203.0" />
+            <h3>Scenario: Add, edit and delete to-do items with screenshot comparison (in TestProject1, ToDo)</h3>
+                <div class="description">
+                    tags: web, todo
+                </div>
+            <ul>
+                <li>Status: Failed</li>
+                <li>Start time: 21/11/2018 9:20:19 PM</li>
+                <li>Execution time (sec): 31.1047791</li>
+                <li>Thread: #4</li>
+                <li>Error: Images are different.</li>
+            </ul>
+            <table class="testEvents">
+                <tr>
+                    <th>Steps</th>
+                    <th>Trace</th>
+                    <th>Result</th>
+                </tr>
+                    <tr>
+                        <td>
+                            <pre class="log"></pre>
+                        </td>
+                        <td>
+                            <!-- [Initialization: Feature - ToDo] -->
+                            <pre class="log">-&gt; Using app.config</pre>
+                        </td>
+                        <td>Succeeded in 0.823s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log"></pre>
+                        </td>
+                        <td>
+                            <!-- [TestArrange: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">Browser: chrome, version 70.0.3538.102
+Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Session Id: 61c3c7fc77f864787edb8a9619474d60</pre>
+                        </td>
+                        <td>Succeeded in 11.944s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Given I am on the Angular2 Todo demo page</pre>
+                        </td>
+                        <td>
+                            <!-- [TestArrange: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (0.7s)</pre>
+                        </td>
+                        <td>Succeeded in 0.746s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I add new tasks
+  --- table step argument ---
+  | Tasks        |
+  | My Task 1    |
+  | My Task Two  |
+  | My Task 3    |
+  | Another task |
+  | Final task   |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.WhenIAddNewTasks(&lt;table&gt;) (5.3s)</pre>
+                        </td>
+                        <td>Succeeded in 5.282s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the correct tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (1.3s)</pre>
+                        </td>
+                        <td>Succeeded in 1.258s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I delete the tasks
+  --- table step argument ---
+  | Tasks     |
+  | My Task 3 |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.WhenIDeleteTask(&lt;table&gt;) (1.0s)</pre>
+                        </td>
+                        <td>Succeeded in 1.011s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the correct tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.6s)</pre>
+                        </td>
+                        <td>Succeeded in 0.628s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I edit the tasks
+  --- table step argument ---
+  | Old Title  | New Title           |
+  | Final task | Last and least task |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.WhenIEditTheTasks(&lt;table&gt;) (1.9s)</pre>
+                        </td>
+                        <td>Succeeded in 1.952s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the correct tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.5s)</pre>
+                        </td>
+                        <td>Succeeded in 0.518s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I edit the tasks
+  --- table step argument ---
+  | Old Title           | New Title          |
+  | Last and least task | Back to final task |
+  | My Task Two         | My Task 2          |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.WhenIEditTheTasks(&lt;table&gt;) (2.4s)</pre>
+                        </td>
+                        <td>Succeeded in 3.427s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the correct tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.4s)</pre>
+                        </td>
+                        <td>Succeeded in 0.378s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">And the task list looks as usual (1)</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">INFO: Metric: Absolute, Max Distortion: 10, Color Fuzz: 3%
+INFO: Actual Distortion: 122
+INFO: Image comparison with file <a href='../../../screenshots/base/ToDo_1.png'>ToDo_1.png</a> FAILED.
+INFO: Actual    : <a href='../../../../../../tmp/Output/20181121/ToDo_1_actual.png'>ToDo_1_actual.png</a>
+INFO: Difference: <a href='../../../../../../tmp/Output/20181121/ToDo_1_diff.png'>ToDo_1_diff.png</a>
+error: Images are different.</pre>
+                                <div class="errorMessage">Images are different.</div>
+                                <pre class="stackTrace">NUnit.Framework.AssertionException: Images are different.
+   at NUnit.Framework.Assert.ReportFailure(String message)
+   at NUnit.Framework.Assert.Fail(String message, Object[] args)
+   at NUnit.Framework.Assert.Fail(String message)
+   at WebAutomation.Base.SnapshotUtils.ImageComparer.AreEqual(MagickImage image1, String baseImageFileName, Rectangle cropArea) in C:\Users\Andreas_2\Development\sources\web-test-automation\WebAutomation.Base\SnapshotUtils\ImageComparer.cs:line 109
+   at WebAutomation.Base.SnapshotUtils.ImageComparer.AreEqual(MemoryStream inMemoryImage, String baseImageFileName, Rectangle areaOfInterest) in C:\Users\Andreas_2\Development\sources\web-test-automation\WebAutomation.Base\SnapshotUtils\ImageComparer.cs:line 31
+   at TestProject1.StepDefinitions.ToDoSteps.ThenTheTaskListLooksAsUsual(Int32 p0) in C:\Users\Andreas_2\Development\sources\web-test-automation\TestProject1\StepDefinitions\ToDoSteps.cs:line 122
+   at lambda_method(Closure , IContextManager , Int32 )
+   at TechTalk.SpecFlow.Bindings.BindingInvoker.InvokeBinding(IBinding binding, IContextManager contextManager, Object[] arguments, ITestTracer testTracer, TimeSpan&amp; duration)
+   at TechTalk.SpecFlow.Infrastructure.TestExecutionEngine.ExecuteStepMatch(BindingMatch match, Object[] arguments)
+   at TechTalk.SpecRun.SpecFlowPlugin.Runtime.RunnerTestExecutionEngine.ExecuteStepMatch(BindingMatch match, Object[] arguments)
+   at TechTalk.SpecFlow.Infrastructure.TestExecutionEngine.ExecuteStep(IContextManager contextManager, StepInstance stepInstance)
+   at TechTalk.SpecFlow.Infrastructure.TestExecutionEngine.OnAfterLastStep()
+   at TechTalk.SpecFlow.TestRunner.CollectScenarioErrors()
+   at TestProject1.Features.ToDoFeature.ScenarioCleanup()
+   at TestProject1.Features.ToDoFeature.AddEditAndDeleteTo_DoItemsWithScreenshotComparison() in C:\Users\Andreas_2\Development\sources\web-test-automation\TestProject1\Features\ToDo.feature:line 92
+   at TechTalk.SpecRun.Framework.TaskExecutors.StaticOrInstanceMethodExecutor.ExecuteInternal(ITestThreadExecutionContext testThreadExecutionContext)
+   at TechTalk.SpecRun.Framework.TaskExecutors.StaticOrInstanceMethodExecutor.Execute(ITestThreadExecutionContext testThreadExecutionContext)
+   at TechTalk.SpecRun.Framework.TestAssemblyExecutor.ExecuteTestNodeTask(TestNode testNode, ITaskExecutor task, TraceEventType eventType)</pre>
+                        </td>
+                        <td>Failed in 1.82s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I delete all tasks</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">skipped because of previous errors</pre>
+                        </td>
+                        <td>Skipped in 0.013s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see no tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">skipped because of previous errors</pre>
+                        </td>
+                        <td>Skipped in 0.073s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log"></pre>
+                        </td>
+                        <td>
+                            <!-- [Cleanup: Scenario - Add, edit and delete to-do items with screenshot comparison] -->
+                            <pre class="log">Screenshot:
+<a href='../../../screenshots/errors/20181121/error_ToDoAddEditAndDeleteToDoItemsWithScreenshotComparison_20181121_212049372_screenshot.png'>error_ToDoAddEditAndDeleteToDoItemsWithScreenshotComparison_20181121_212049372_screenshot.png</a>
+C:\Users\Andreas_2\Development\screenshots\errors\20181121\error_ToDoAddEditAndDeleteToDoItemsWithScreenshotComparison_20181121_212049372_screenshot.png</pre>
+                        </td>
+                        <td>Succeeded in 1.134s</td>
+                    </tr>
+            </table>
+            <a name="t-571706640.0" />
+            <h3>Scenario: Complete, re-open and clear completed to-do items with screenshot comparison (in TestProject1, ToDo)</h3>
+                <div class="description">
+                    tags: web, todo
+                </div>
+            <ul>
+                <li>Status: Succeeded</li>
+                <li>Start time: 21/11/2018 9:20:19 PM</li>
+                <li>Execution time (sec): 35.6830409</li>
+                <li>Thread: #3</li>
+            </ul>
+            <table class="testEvents">
+                <tr>
+                    <th>Steps</th>
+                    <th>Trace</th>
+                    <th>Result</th>
+                </tr>
+                    <tr>
+                        <td>
+                            <pre class="log"></pre>
+                        </td>
+                        <td>
+                            <!-- [Initialization: Feature - ToDo] -->
+                            <pre class="log">-&gt; Using app.config</pre>
+                        </td>
+                        <td>Succeeded in 1.166s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log"></pre>
+                        </td>
+                        <td>
+                            <!-- [TestArrange: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">Browser: chrome, version 70.0.3538.102
+Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Session Id: eb307d0bd51f8732b233bb27063dd3d0</pre>
+                        </td>
+                        <td>Succeeded in 13.939s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Given I am on the Angular2 Todo demo page</pre>
+                        </td>
+                        <td>
+                            <!-- [TestArrange: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (0.1s)</pre>
+                        </td>
+                        <td>Succeeded in 0.161s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I add new tasks
+  --- table step argument ---
+  | Tasks        |
+  | My Task 1    |
+  | My Task Two  |
+  | My Task 3    |
+  | Another task |
+  | Final task   |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.WhenIAddNewTasks(&lt;table&gt;) (6.6s)</pre>
+                        </td>
+                        <td>Succeeded in 6.611s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the correct tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (1.2s)</pre>
+                        </td>
+                        <td>Succeeded in 1.185s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I complete task
+  --- table step argument ---
+  | Tasks        |
+  | My Task 3    |
+  | Another Task |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.WhenICompleteTask(&lt;table&gt;) (0.8s)</pre>
+                        </td>
+                        <td>Succeeded in 0.803s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the number of items left is updated</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.2s)</pre>
+                        </td>
+                        <td>Succeeded in 0.186s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I re-open task
+  --- table step argument ---
+  | Tasks     |
+  | My Task 3 |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.WhenIReopenTask(&lt;table&gt;) (0.7s)</pre>
+                        </td>
+                        <td>Succeeded in 0.763s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the number of items left is updated</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.1s)</pre>
+                        </td>
+                        <td>Succeeded in 0.1s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I complete all tasks</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.WhenICompleteAllTasks() (1.0s)</pre>
+                        </td>
+                        <td>Succeeded in 1.041s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the number of items left is updated</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.1s)</pre>
+                        </td>
+                        <td>Succeeded in 0.114s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">And the task list looks as usual (2)</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">INFO: Metric: Absolute, Max Distortion: 10, Color Fuzz: 3%
+INFO: Actual Distortion: 0
+INFO: Image comparison with file C:\Users\Andreas_2\Development\screenshots\base\ToDo_2.png PASSED.
+done: ToDoSteps.ThenTheTaskListLooksAsUsual(2) (3.1s)</pre>
+                        </td>
+                        <td>Succeeded in 3.148s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I clear all completed tasks</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.WhenIClearAllCompletedTasks() (0.2s)</pre>
+                        </td>
+                        <td>Succeeded in 0.161s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see no tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeNoTasksInTheTaskList() (5.1s)</pre>
+                        </td>
+                        <td>Succeeded in 5.106s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">And the task list looks as usual (3)</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Complete, re-open and clear completed to-do items with screenshot comparison] -->
+                            <pre class="log">INFO: Metric: Absolute, Max Distortion: 10, Color Fuzz: 3%
+INFO: Actual Distortion: 0
+INFO: Image comparison with file C:\Users\Andreas_2\Development\screenshots\base\ToDo_3.png PASSED.
+done: ToDoSteps.ThenTheTaskListLooksAsUsual(3) (1.0s)</pre>
+                        </td>
+                        <td>Succeeded in 0.994s</td>
+                    </tr>
+            </table>
+            <a name="t-1074980011.0" />
+            <h3>Scenario: Complete, re-open and clear completed to-do items (in TestProject1, ToDo)</h3>
+                <div class="description">
+                    tags: web, todo
+                </div>
+            <ul>
+                <li>Status: Succeeded</li>
+                <li>Start time: 21/11/2018 9:20:19 PM</li>
+                <li>Execution time (sec): 30.998773</li>
+                <li>Thread: #2</li>
+            </ul>
+            <table class="testEvents">
+                <tr>
+                    <th>Steps</th>
+                    <th>Trace</th>
+                    <th>Result</th>
+                </tr>
+                    <tr>
+                        <td>
+                            <pre class="log"></pre>
+                        </td>
+                        <td>
+                            <!-- [Initialization: Feature - ToDo] -->
+                            <pre class="log">-&gt; Using app.config</pre>
+                        </td>
+                        <td>Succeeded in 1.331s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log"></pre>
+                        </td>
+                        <td>
+                            <!-- [TestArrange: Scenario - Complete, re-open and clear completed to-do items] -->
+                            <pre class="log">Browser: chrome, version 70.0.3538.102
+Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Session Id: 64a42b459c7812ff6865317e4aa869a5</pre>
+                        </td>
+                        <td>Succeeded in 10.839s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Given I am on the Angular2 Todo demo page</pre>
+                        </td>
+                        <td>
+                            <!-- [TestArrange: Scenario - Complete, re-open and clear completed to-do items] -->
+                            <pre class="log">done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (0.2s)</pre>
+                        </td>
+                        <td>Succeeded in 0.268s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I add new tasks
+  --- table step argument ---
+  | Tasks        |
+  | My Task 1    |
+  | My Task Two  |
+  | My Task 3    |
+  | Another task |
+  | Final task   |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Complete, re-open and clear completed to-do items] -->
+                            <pre class="log">done: ToDoSteps.WhenIAddNewTasks(&lt;table&gt;) (5.9s)</pre>
+                        </td>
+                        <td>Succeeded in 5.948s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the correct tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Complete, re-open and clear completed to-do items] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (1.2s)</pre>
+                        </td>
+                        <td>Succeeded in 1.239s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I complete task
+  --- table step argument ---
+  | Tasks        |
+  | My Task 3    |
+  | Another Task |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Complete, re-open and clear completed to-do items] -->
+                            <pre class="log">done: ToDoSteps.WhenICompleteTask(&lt;table&gt;) (0.8s)</pre>
+                        </td>
+                        <td>Succeeded in 0.826s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the number of items left is updated</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Complete, re-open and clear completed to-do items] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.2s)</pre>
+                        </td>
+                        <td>Succeeded in 0.212s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I re-open task
+  --- table step argument ---
+  | Tasks     |
+  | My Task 3 |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Complete, re-open and clear completed to-do items] -->
+                            <pre class="log">done: ToDoSteps.WhenIReopenTask(&lt;table&gt;) (0.7s)</pre>
+                        </td>
+                        <td>Succeeded in 0.678s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the number of items left is updated</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Complete, re-open and clear completed to-do items] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.1s)</pre>
+                        </td>
+                        <td>Succeeded in 0.148s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I complete all tasks</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Complete, re-open and clear completed to-do items] -->
+                            <pre class="log">done: ToDoSteps.WhenICompleteAllTasks() (1.6s)</pre>
+                        </td>
+                        <td>Succeeded in 1.574s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the number of items left is updated</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Complete, re-open and clear completed to-do items] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.1s)</pre>
+                        </td>
+                        <td>Succeeded in 0.126s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I clear all completed tasks</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Complete, re-open and clear completed to-do items] -->
+                            <pre class="log">done: ToDoSteps.WhenIClearAllCompletedTasks() (0.3s)</pre>
+                        </td>
+                        <td>Succeeded in 0.329s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see no tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Complete, re-open and clear completed to-do items] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeNoTasksInTheTaskList() (5.1s)</pre>
+                        </td>
+                        <td>Succeeded in 5.113s</td>
+                    </tr>
+            </table>
+            <a name="t164426555.0" />
+            <h3>Scenario: Add, edit and delete to-do items (in TestProject1, ToDo)</h3>
+                <div class="description">
+                    tags: web, todo
+                </div>
+            <ul>
+                <li>Status: Succeeded</li>
+                <li>Start time: 21/11/2018 9:20:19 PM</li>
+                <li>Execution time (sec): 32.886881</li>
+                <li>Thread: #0</li>
+            </ul>
+            <table class="testEvents">
+                <tr>
+                    <th>Steps</th>
+                    <th>Trace</th>
+                    <th>Result</th>
+                </tr>
+                    <tr>
+                        <td>
+                            <pre class="log"></pre>
+                        </td>
+                        <td>
+                            <!-- [Initialization: Feature - ToDo] -->
+                            <pre class="log">-&gt; Using app.config</pre>
+                        </td>
+                        <td>Succeeded in 0.966s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log"></pre>
+                        </td>
+                        <td>
+                            <!-- [TestArrange: Scenario - Add, edit and delete to-do items] -->
+                            <pre class="log">Browser: chrome, version 70.0.3538.102
+Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Session Id: d9d3eb828a1c921a313b5672eb5ab2c4</pre>
+                        </td>
+                        <td>Succeeded in 10.127s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Given I am on the Angular2 Todo demo page</pre>
+                        </td>
+                        <td>
+                            <!-- [TestArrange: Scenario - Add, edit and delete to-do items] -->
+                            <pre class="log">done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (0.1s)</pre>
+                        </td>
+                        <td>Succeeded in 0.141s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I add new tasks
+  --- table step argument ---
+  | Tasks        |
+  | My Task 1    |
+  | My Task Two  |
+  | My Task 3    |
+  | Another task |
+  | Final task   |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Add, edit and delete to-do items] -->
+                            <pre class="log">done: ToDoSteps.WhenIAddNewTasks(&lt;table&gt;) (6.2s)</pre>
+                        </td>
+                        <td>Succeeded in 6.253s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the correct tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Add, edit and delete to-do items] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (1.1s)</pre>
+                        </td>
+                        <td>Succeeded in 1.192s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I delete the tasks
+  --- table step argument ---
+  | Tasks     |
+  | My Task 3 |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Add, edit and delete to-do items] -->
+                            <pre class="log">done: ToDoSteps.WhenIDeleteTask(&lt;table&gt;) (1.0s)</pre>
+                        </td>
+                        <td>Succeeded in 1.001s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the correct tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Add, edit and delete to-do items] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.6s)</pre>
+                        </td>
+                        <td>Succeeded in 0.657s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I edit the tasks
+  --- table step argument ---
+  | Old Title  | New Title           |
+  | Final task | Last and least task |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Add, edit and delete to-do items] -->
+                            <pre class="log">done: ToDoSteps.WhenIEditTheTasks(&lt;table&gt;) (2.1s)</pre>
+                        </td>
+                        <td>Succeeded in 2.135s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the correct tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Add, edit and delete to-do items] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.6s)</pre>
+                        </td>
+                        <td>Succeeded in 0.64s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I edit the tasks
+  --- table step argument ---
+  | Old Title           | New Title          |
+  | Last and least task | Back to final task |
+  | My Task Two         | My Task 2          |</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Add, edit and delete to-do items] -->
+                            <pre class="log">done: ToDoSteps.WhenIEditTheTasks(&lt;table&gt;) (2.3s)</pre>
+                        </td>
+                        <td>Succeeded in 2.338s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see the correct tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Add, edit and delete to-do items] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.4s)</pre>
+                        </td>
+                        <td>Succeeded in 0.425s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">When I delete all tasks</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAct: Scenario - Add, edit and delete to-do items] -->
+                            <pre class="log">done: ToDoSteps.WhenIDeleteAllTasks() (1.2s)</pre>
+                        </td>
+                        <td>Succeeded in 1.71s</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <pre class="log">Then I can see no tasks in the task list</pre>
+                        </td>
+                        <td>
+                            <!-- [TestAssert: Scenario - Add, edit and delete to-do items] -->
+                            <pre class="log">done: ToDoSteps.ThenICanSeeNoTasksInTheTaskList() (5.1s)</pre>
+                        </td>
+                        <td>Succeeded in 5.092s</td>
+                    </tr>
+            </table>
+	</body>
+</html>
+</a><div style='position: absolute; top:0px; right:10px; z-index: 1000; text-align: right; font-size: small; color: #FF5555'>
+Generated by an evaluation version of SpecRun.<br />
+This version can be used for evaluation purposes only.<br />
+For obtaining a registered license please visit <a href='http://www.specflow.org/plus'>http://www.specflow.org/plus</a>.
+</div>
