@@ -49,8 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="SpecFlowLogSamples\TestProject1_2targets_noRetries.log" />
-    <None Include="SpecFlowLogSamples\TestProject1_2targets_retries.log" />
+    <None Include="SpecRunLogSamples\TestProject1_2targets_noRetries.log" />
+    <None Include="SpecRunLogSamples\TestProject1_2targets_retries.log" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

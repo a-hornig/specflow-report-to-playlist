@@ -1,0 +1,657 @@
+﻿2018-11-25T15:48:08.7072998+11:00;VSTestExecutionThread;Info;SpecFlow+Runner 1.8.5 execution started
+2018-11-25T15:48:08.7143002+11:00;VSTestExecutionThread;Info;TestAdapter Location: C:\Users\Andreas_2\AppData\Local\Temp\VisualStudioTestExplorerExtensions\SpecRun.Runner.1.8.5\tools\TechTalk.SpecRun.VisualStudio.TestAdapter.dll
+2018-11-25T15:48:08.8923104+11:00;VSTestExecutionThread;Info;SpecRun Evaluation Mode: Please purchase at http://www.specflow.org/plus to remove test execution delay.
+2018-11-25T15:48:08.8923104+11:00;VSTestExecutionThread;Info;SpecRun: running tests in C:\Users\Andreas_2\Development\sources\web-test-automation\TestProject1\bin\Debug\TestProject1.dll
+2018-11-25T15:48:08.8923104+11:00;VSTestExecutionThread;Info;Profile: TestProject1
+2018-11-25T15:48:21.0180039+11:00;Thread#12;Info;starting test run
+2018-11-25T15:48:21.0290045+11:00;Thread#12;Info;Discovering target: chrome
+2018-11-25T15:48:21.0300046+11:00;Thread#12;Info;Discovering tests from assembly: C:\Users\Andreas_2\Development\sources\web-test-automation\TestProject1\bin\Debug\TestProject1.dll
+Appdomain Disposed
+2018-11-25T15:48:21.6180382+11:00;Thread#12;Info;Discovering target: firefox
+2018-11-25T15:48:21.6190383+11:00;Thread#12;Info;Discovering tests from assembly: C:\Users\Andreas_2\Development\sources\web-test-automation\TestProject1\bin\Debug\TestProject1.dll
+Appdomain Disposed
+Test Suite Dump
+#0: TestProject1/TestProject1 - 
+#1: chrome - 
+#10: firefox - 
+#2: TestProject1 - 
+#11: TestProject1 - 
+#5: ToDo - 
+#14: ToDo - 
+#6: Add, edit and delete to-do items - Target:chrome/TestAssembly:TestProject1/Feature:ToDo/Scenario:Add%2c+edit+and+delete+to-do+items
+#7: Complete, re-open and clear completed to-do items - Target:chrome/TestAssembly:TestProject1/Feature:ToDo/Scenario:Complete%2c+re-open+and+clear+completed+to-do+items
+#8: Add, edit and delete to-do items with screenshot comparison - Target:chrome/TestAssembly:TestProject1/Feature:ToDo/Scenario:Add%2c+edit+and+delete+to-do+items+with+screenshot+comparison
+#9: Complete, re-open and clear completed to-do items with screenshot comparison - Target:chrome/TestAssembly:TestProject1/Feature:ToDo/Scenario:Complete%2c+re-open+and+clear+completed+to-do+items+with+screenshot+comparison
+#15: Add, edit and delete to-do items - Target:firefox/TestAssembly:TestProject1/Feature:ToDo/Scenario:Add%2c+edit+and+delete+to-do+items
+#16: Complete, re-open and clear completed to-do items - Target:firefox/TestAssembly:TestProject1/Feature:ToDo/Scenario:Complete%2c+re-open+and+clear+completed+to-do+items
+#17: Add, edit and delete to-do items with screenshot comparison - Target:firefox/TestAssembly:TestProject1/Feature:ToDo/Scenario:Add%2c+edit+and+delete+to-do+items+with+screenshot+comparison
+#18: Complete, re-open and clear completed to-do items with screenshot comparison - Target:firefox/TestAssembly:TestProject1/Feature:ToDo/Scenario:Complete%2c+re-open+and+clear+completed+to-do+items+with+screenshot+comparison
+End: Test Suite Dump
+Thread#1:Scheduler: get next test for thread 1
+Thread#:Scheduler: testitem #6 from normal test queue 
+Thread#1:Scheduler: considering testitem #6 for thread 1
+Thread#1:TestItem#6:testItemMatchesCurrentTestThread:UnSpecific
+Thread#1:TestItem#6:runsOnOneOtherThreadSpecific:False
+Thread#1:TestItem#6:runsOnOneOtherThreadUnspecific:True
+Thread#1:Scheduler: using testitem #6 for thread 1
+Thread#1:Scheduler: Test #6 is scheduled for thread
+Thread#1:Scheduler: with testItemExecutionIndex 0
+Thread#3:Scheduler: get next test for thread 3
+Thread#:Scheduler: testitem #7 from normal test queue 
+Thread#3:Scheduler: considering testitem #7 for thread 3
+Thread#3:TestItem#7:testItemMatchesCurrentTestThread:UnSpecific
+Thread#3:TestItem#7:runsOnOneOtherThreadSpecific:False
+Thread#3:TestItem#7:runsOnOneOtherThreadUnspecific:True
+Thread#3:Scheduler: using testitem #7 for thread 3
+Thread#3:Scheduler: Test #7 is scheduled for thread
+Thread#3:Scheduler: with testItemExecutionIndex 0
+Thread#4:Scheduler: get next test for thread 4
+Thread#:Scheduler: testitem #8 from normal test queue 
+Thread#4:Scheduler: considering testitem #8 for thread 4
+Thread#4:TestItem#8:testItemMatchesCurrentTestThread:UnSpecific
+Thread#4:TestItem#8:runsOnOneOtherThreadSpecific:False
+Thread#4:TestItem#8:runsOnOneOtherThreadUnspecific:True
+Thread#4:Scheduler: using testitem #8 for thread 4
+Thread#4:Scheduler: Test #8 is scheduled for thread
+Thread#4:Scheduler: with testItemExecutionIndex 0
+Thread#2:Scheduler: get next test for thread 2
+Thread#:Scheduler: testitem #9 from normal test queue 
+Thread#2:Scheduler: considering testitem #9 for thread 2
+Thread#2:TestItem#9:testItemMatchesCurrentTestThread:UnSpecific
+Thread#2:TestItem#9:runsOnOneOtherThreadSpecific:False
+Thread#2:TestItem#9:runsOnOneOtherThreadUnspecific:True
+Thread#2:Scheduler: using testitem #9 for thread 2
+Thread#2:Scheduler: Test #9 is scheduled for thread
+Thread#2:Scheduler: with testItemExecutionIndex 0
+Thread#0:Scheduler: get next test for thread 0
+Thread#:Scheduler: testitem #15 from normal test queue 
+Thread#0:Scheduler: considering testitem #15 for thread 0
+Thread#0:TestItem#15:testItemMatchesCurrentTestThread:UnSpecific
+Thread#0:TestItem#15:runsOnOneOtherThreadSpecific:False
+Thread#0:TestItem#15:runsOnOneOtherThreadUnspecific:True
+Thread#0:Scheduler: using testitem #15 for thread 0
+Thread#0:Scheduler: Test #15 is scheduled for thread
+Thread#0:Scheduler: with testItemExecutionIndex 0
+Thread #1: creating new test thread executor for TestProject1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null (target: chrome)
+Thread #3: creating new test thread executor for TestProject1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null (target: chrome)
+Thread #0: creating new test thread executor for TestProject1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null (target: firefox)
+Thread #2: creating new test thread executor for TestProject1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null (target: chrome)
+Thread #4: creating new test thread executor for TestProject1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null (target: chrome)
+Thread#1: Test #6/0 is started on thread #1
+Thread#2: Test #9/0 is started on thread #2
+Thread#4: Test #8/0 is started on thread #4
+Thread#3: Test #7/0 is started on thread #3
+Thread#0: Test #15/0 is started on thread #0
+Thread#2:T:-> Using app.config
+Thread#1:T:-> Using app.config
+Thread#3:T:-> Using app.config
+Thread#4:T:-> Using app.config
+Thread#0:T:-> Using app.config
+Thread#2:T:Browser: chrome, version 70.0.3538.102
+Thread#2:T:Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Thread#2:T:Session Id: b33ed37e49543109b63c444ccb50d239
+Thread#3:T:Browser: chrome, version 70.0.3538.102
+Thread#3:T:Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Thread#3:T:Session Id: 57b0947bfc1b5046d1d49a70ae39ab50
+Thread#1:T:Browser: chrome, version 70.0.3538.102
+Thread#1:T:Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Thread#1:T:Session Id: da6eaecd3998c85dfe091f955e2c7614
+Thread#4:T:Browser: chrome, version 70.0.3538.102
+Thread#4:T:Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Thread#4:T:Session Id: a47fae7da83e67e6592f3becfc5afa85
+Thread#0:T:Browser: chrome, version 70.0.3538.102
+Thread#0:T:Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Thread#0:T:Session Id: 021646cb6edff50484ca9671e32609e6
+Thread#3:B:Given I am on the Angular2 Todo demo page
+Thread#1:B:Given I am on the Angular2 Todo demo page
+Thread#2:B:Given I am on the Angular2 Todo demo page
+Thread#4:B:Given I am on the Angular2 Todo demo page
+Thread#1:T:done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (0.4s)
+Thread#1:B:When I add new tasks
+Thread#1:B:  --- table step argument ---
+Thread#1:B:  | Tasks        |
+Thread#1:B:  | My Task 1    |
+Thread#1:B:  | My Task Two  |
+Thread#1:B:  | My Task 3    |
+Thread#1:B:  | Another task |
+Thread#1:B:  | Final task   |
+Thread#3:T:done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (1.1s)
+Thread#3:B:When I add new tasks
+Thread#3:B:  --- table step argument ---
+Thread#3:B:  | Tasks        |
+Thread#3:B:  | My Task 1    |
+Thread#3:B:  | My Task Two  |
+Thread#3:B:  | My Task 3    |
+Thread#3:B:  | Another task |
+Thread#3:B:  | Final task   |
+Thread#0:B:Given I am on the Angular2 Todo demo page
+Thread#2:T:done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (1.1s)
+Thread#2:B:When I add new tasks
+Thread#2:B:  --- table step argument ---
+Thread#2:B:  | Tasks        |
+Thread#2:B:  | My Task 1    |
+Thread#2:B:  | My Task Two  |
+Thread#2:B:  | My Task 3    |
+Thread#2:B:  | Another task |
+Thread#2:B:  | Final task   |
+Thread#4:T:done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (1.1s)
+Thread#4:B:When I add new tasks
+Thread#4:B:  --- table step argument ---
+Thread#4:B:  | Tasks        |
+Thread#4:B:  | My Task 1    |
+Thread#4:B:  | My Task Two  |
+Thread#4:B:  | My Task 3    |
+Thread#4:B:  | Another task |
+Thread#4:B:  | Final task   |
+Thread#0:T:done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (0.5s)
+Thread#0:B:When I add new tasks
+Thread#0:B:  --- table step argument ---
+Thread#0:B:  | Tasks        |
+Thread#0:B:  | My Task 1    |
+Thread#0:B:  | My Task Two  |
+Thread#0:B:  | My Task 3    |
+Thread#0:B:  | Another task |
+Thread#0:B:  | Final task   |
+Thread#1:T:done: ToDoSteps.WhenIAddNewTasks(<table>) (6.7s)
+Thread#1:B:Then I can see the correct tasks in the task list
+Thread#3:T:done: ToDoSteps.WhenIAddNewTasks(<table>) (6.7s)
+Thread#3:B:Then I can see the correct tasks in the task list
+Thread#1:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (1.2s)
+Thread#1:B:When I delete the tasks
+Thread#1:B:  --- table step argument ---
+Thread#1:B:  | Tasks     |
+Thread#1:B:  | My Task 3 |
+Thread#3:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (1.5s)
+Thread#3:B:When I complete task
+Thread#3:B:  --- table step argument ---
+Thread#3:B:  | Tasks        |
+Thread#3:B:  | My Task 3    |
+Thread#3:B:  | Another Task |
+Thread#2:T:done: ToDoSteps.WhenIAddNewTasks(<table>) (8.5s)
+Thread#2:B:Then I can see the correct tasks in the task list
+Thread#1:T:done: ToDoSteps.WhenIDeleteTask(<table>) (1.3s)
+Thread#1:B:Then I can see the correct tasks in the task list
+Thread#3:T:done: ToDoSteps.WhenICompleteTask(<table>) (1.3s)
+Thread#3:B:Then I can see the number of items left is updated
+Thread#3:T:done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.4s)
+Thread#3:B:When I re-open task
+Thread#3:B:  --- table step argument ---
+Thread#3:B:  | Tasks     |
+Thread#3:B:  | My Task 3 |
+Thread#1:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.9s)
+Thread#1:B:When I edit the tasks
+Thread#1:B:  --- table step argument ---
+Thread#1:B:  | Old Title  | New Title           |
+Thread#1:B:  | Final task | Last and least task |
+Thread#4:T:done: ToDoSteps.WhenIAddNewTasks(<table>) (9.8s)
+Thread#4:B:Then I can see the correct tasks in the task list
+Thread#2:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (1.7s)
+Thread#2:B:When I complete task
+Thread#2:B:  --- table step argument ---
+Thread#2:B:  | Tasks        |
+Thread#2:B:  | My Task 3    |
+Thread#2:B:  | Another Task |
+Thread#3:T:done: ToDoSteps.WhenIReopenTask(<table>) (1.3s)
+Thread#3:B:Then I can see the number of items left is updated
+Thread#3:T:done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.2s)
+Thread#3:B:When I complete all tasks
+Thread#2:T:done: ToDoSteps.WhenICompleteTask(<table>) (1.0s)
+Thread#2:B:Then I can see the number of items left is updated
+Thread#2:T:done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.2s)
+Thread#2:B:When I re-open task
+Thread#2:B:  --- table step argument ---
+Thread#2:B:  | Tasks     |
+Thread#2:B:  | My Task 3 |
+Thread#0:T:done: ToDoSteps.WhenIAddNewTasks(<table>) (11.4s)
+Thread#0:B:Then I can see the correct tasks in the task list
+Thread#4:T:error:   Expected: equivalent to < "My Task 1", "My Task Two", "My Task 3", "Another task", "Final task" >
+Thread#4:T:  But was:  < "My Task 1", "My", "My Task 3", "Another task", "Final task" >
+Thread#4:T:  Missing (1): < "My Task Two" >
+Thread#4:T:  Extra (1): < "My" >
+Thread#4:B:When I delete the tasks
+Thread#4:B:  --- table step argument ---
+Thread#4:B:  | Tasks     |
+Thread#4:B:  | My Task 3 |
+Thread#4:T:skipped because of previous errors
+Thread#4:B:Then I can see the correct tasks in the task list
+Thread#4:T:skipped because of previous errors
+Thread#4:B:When I edit the tasks
+Thread#4:B:  --- table step argument ---
+Thread#4:B:  | Old Title  | New Title           |
+Thread#4:B:  | Final task | Last and least task |
+Thread#4:T:skipped because of previous errors
+Thread#4:B:Then I can see the correct tasks in the task list
+Thread#4:T:skipped because of previous errors
+Thread#4:B:When I edit the tasks
+Thread#4:B:  --- table step argument ---
+Thread#4:B:  | Old Title           | New Title          |
+Thread#4:B:  | Last and least task | Back to final task |
+Thread#4:B:  | My Task Two         | My Task 2          |
+Thread#4:T:skipped because of previous errors
+Thread#4:B:Then I can see the correct tasks in the task list
+Thread#4:T:skipped because of previous errors
+Thread#4:B:And the task list looks as usual (1)
+Thread#4:T:skipped because of previous errors
+Thread#4:B:When I delete all tasks
+Thread#4:T:skipped because of previous errors
+Thread#4:B:Then I can see no tasks in the task list
+Thread#4:T:skipped because of previous errors
+Thread#1:T:done: ToDoSteps.WhenIEditTheTasks(<table>) (2.5s)
+Thread#1:B:Then I can see the correct tasks in the task list
+Thread#4:TestItem#8:Scheduler: reschedule tests for testitem #8
+Thread#4:Scheduler: get next test for thread 4
+Thread#:Scheduler: dequeuing a rescheduled testitem: #8
+Thread#4:Scheduler: considering testitem #8 for thread 4
+Thread#4:TestItem#8:testItemMatchesCurrentTestThread:UnSpecific
+Thread#4:TestItem#8:runsOnOneOtherThreadSpecific:False
+Thread#4:TestItem#8:runsOnOneOtherThreadUnspecific:True
+Thread#4:Scheduler: using testitem #8 for thread 4
+Thread#4:Scheduler: Test #8 is scheduled for thread
+Thread#4:Scheduler: with testItemExecutionIndex 1
+Thread#2:T:done: ToDoSteps.WhenIReopenTask(<table>) (0.9s)
+Thread#2:B:Then I can see the number of items left is updated
+Thread#2:T:done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.2s)
+Thread#2:B:When I complete all tasks
+Thread#3:T:done: ToDoSteps.WhenICompleteAllTasks() (2.0s)
+Thread#3:B:Then I can see the number of items left is updated
+Thread#1:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (1.0s)
+Thread#1:B:When I edit the tasks
+Thread#1:B:  --- table step argument ---
+Thread#1:B:  | Old Title           | New Title          |
+Thread#1:B:  | Last and least task | Back to final task |
+Thread#1:B:  | My Task Two         | My Task 2          |
+Thread#3:T:done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.2s)
+Thread#3:B:When I clear all completed tasks
+Thread#0:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (1.6s)
+Thread#0:B:When I delete the tasks
+Thread#0:B:  --- table step argument ---
+Thread#0:B:  | Tasks     |
+Thread#0:B:  | My Task 3 |
+Thread#3:T:done: ToDoSteps.WhenIClearAllCompletedTasks() (0.4s)
+Thread#3:B:Then I can see no tasks in the task list
+Thread#0:T:done: ToDoSteps.WhenIDeleteTask(<table>) (0.8s)
+Thread#0:B:Then I can see the correct tasks in the task list
+Thread#4:T:Screenshot:
+Thread#4:T:file:///C:/Users/Andreas_2/Development/screenshots/errors/20181125/error_ToDoAddEditAndDeleteToDoItemsWithScreenshotComparison_20181125_154849350_screenshot.png
+Thread#4:T:C:\Users\Andreas_2\Development\screenshots\errors\20181125\error_ToDoAddEditAndDeleteToDoItemsWithScreenshotComparison_20181125_154849350_screenshot.png
+Thread#2:T:done: ToDoSteps.WhenICompleteAllTasks() (1.8s)
+Thread#2:B:Then I can see the number of items left is updated
+Thread#2:T:done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.2s)
+Thread#2:B:And the task list looks as usual (2)
+Thread#0:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.7s)
+Thread#0:B:When I edit the tasks
+Thread#0:B:  --- table step argument ---
+Thread#0:B:  | Old Title  | New Title           |
+Thread#0:B:  | Final task | Last and least task |
+Thread#1:T:done: ToDoSteps.WhenIEditTheTasks(<table>) (2.3s)
+Thread#1:B:Then I can see the correct tasks in the task list
+Thread#0:T:done: ToDoSteps.WhenIEditTheTasks(<table>) (1.0s)
+Thread#0:B:Then I can see the correct tasks in the task list
+Thread#1:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.3s)
+Thread#1:B:When I delete all tasks
+Thread#0:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.4s)
+Thread#0:B:When I edit the tasks
+Thread#0:B:  --- table step argument ---
+Thread#0:B:  | Old Title           | New Title          |
+Thread#0:B:  | Last and least task | Back to final task |
+Thread#0:B:  | My Task Two         | My Task 2          |
+Thread#2:T:INFO: Metric: Absolute, Max Distortion: 10, Color Fuzz: 3%
+Thread#2:T:INFO: Actual Distortion: 0
+Thread#2:T:INFO: Image comparison with file C:\Users\Andreas_2\Development\screenshots\base\ToDo_2.png PASSED.
+Thread#2:T:done: ToDoSteps.ThenTheTaskListLooksAsUsual(2) (1.7s)
+Thread#2:B:When I clear all completed tasks
+Thread#2:T:done: ToDoSteps.WhenIClearAllCompletedTasks() (0.3s)
+Thread#2:B:Then I can see no tasks in the task list
+Thread#4: Test #8/0 is finished on thread #4 as Failed within 32.0600515 seconds
+Thread#4: Test #8/1 is started on thread #4
+Thread#1:T:done: ToDoSteps.WhenIDeleteAllTasks() (1.6s)
+Thread#1:B:Then I can see no tasks in the task list
+Thread#0:T:done: ToDoSteps.WhenIEditTheTasks(<table>) (1.7s)
+Thread#0:B:Then I can see the correct tasks in the task list
+Thread#3:T:done: ToDoSteps.ThenICanSeeNoTasksInTheTaskList() (5.1s)
+Thread#3:Scheduler: get next test for thread 3
+Thread#:Scheduler: testitem #16 from normal test queue 
+Thread#3:Scheduler: considering testitem #16 for thread 3
+Thread#3:TestItem#16:testItemMatchesCurrentTestThread:UnSpecific
+Thread#3:TestItem#16:runsOnOneOtherThreadSpecific:False
+Thread#3:TestItem#16:runsOnOneOtherThreadUnspecific:True
+Thread#3:Scheduler: using testitem #16 for thread 3
+Thread#3:Scheduler: Test #16 is scheduled for thread
+Thread#3:Scheduler: with testItemExecutionIndex 0
+Thread#0:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (1.1s)
+Thread#0:B:When I delete all tasks
+Thread#0:T:done: ToDoSteps.WhenIDeleteAllTasks() (1.6s)
+Thread#0:B:Then I can see no tasks in the task list
+Thread#3: Test #7/0 is finished on thread #3 as Succeeded within 36.422857 seconds
+Thread #3: creating new test thread executor for TestProject1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null (target: firefox)
+Thread#4:T:Browser: chrome, version 70.0.3538.102
+Thread#4:T:Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Thread#3: Test #16/0 is started on thread #3
+Thread#4:T:Session Id: 246eec34d85a0bd1e667a12afcae7273
+Thread#3:T:-> Using app.config
+Thread#2:T:done: ToDoSteps.ThenICanSeeNoTasksInTheTaskList() (5.0s)
+Thread#2:B:And the task list looks as usual (3)
+Thread#1:T:done: ToDoSteps.ThenICanSeeNoTasksInTheTaskList() (5.1s)
+Thread#1:Scheduler: get next test for thread 1
+Thread#:Scheduler: testitem #17 from normal test queue 
+Thread#1:Scheduler: considering testitem #17 for thread 1
+Thread#1:TestItem#17:testItemMatchesCurrentTestThread:UnSpecific
+Thread#1:TestItem#17:runsOnOneOtherThreadSpecific:False
+Thread#1:TestItem#17:runsOnOneOtherThreadUnspecific:True
+Thread#1:Scheduler: using testitem #17 for thread 1
+Thread#1:Scheduler: Test #17 is scheduled for thread
+Thread#1:Scheduler: with testItemExecutionIndex 0
+Thread#2:T:INFO: Metric: Absolute, Max Distortion: 10, Color Fuzz: 3%
+Thread#2:T:INFO: Actual Distortion: 0
+Thread#2:T:INFO: Image comparison with file C:\Users\Andreas_2\Development\screenshots\base\ToDo_3.png PASSED.
+Thread#2:T:done: ToDoSteps.ThenTheTaskListLooksAsUsual(3) (1.2s)
+Thread#2:Scheduler: get next test for thread 2
+Thread#:Scheduler: testitem #18 from normal test queue 
+Thread#2:Scheduler: considering testitem #18 for thread 2
+Thread#2:TestItem#18:testItemMatchesCurrentTestThread:UnSpecific
+Thread#2:TestItem#18:runsOnOneOtherThreadSpecific:False
+Thread#2:TestItem#18:runsOnOneOtherThreadUnspecific:True
+Thread#2:Scheduler: using testitem #18 for thread 2
+Thread#2:Scheduler: Test #18 is scheduled for thread
+Thread#2:Scheduler: with testItemExecutionIndex 0
+Thread#2: Test #9/0 is finished on thread #2 as Succeeded within 38.4215532 seconds
+Thread #2: creating new test thread executor for TestProject1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null (target: firefox)
+Thread#2: Test #18/0 is started on thread #2
+Thread#2:T:-> Using app.config
+Thread#4:B:Given I am on the Angular2 Todo demo page
+Thread#4:T:done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (0.3s)
+Thread#4:B:When I add new tasks
+Thread#4:B:  --- table step argument ---
+Thread#4:B:  | Tasks        |
+Thread#4:B:  | My Task 1    |
+Thread#4:B:  | My Task Two  |
+Thread#4:B:  | My Task 3    |
+Thread#4:B:  | Another task |
+Thread#4:B:  | Final task   |
+Thread#1: Test #6/0 is finished on thread #1 as Succeeded within 40.3646642 seconds
+Thread #1: creating new test thread executor for TestProject1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null (target: firefox)
+Thread#1: Test #17/0 is started on thread #1
+Thread#1:T:-> Using app.config
+Thread#0:T:done: ToDoSteps.ThenICanSeeNoTasksInTheTaskList() (5.1s)
+Thread#0:Scheduler: get next test for thread 0
+Thread#:Scheduler: at the end of normal test queue
+Thread#0:Scheduler: enumerator for thread is at end
+Thread#0:Scheduler: No more tests for thread
+Thread#3:T:Browser: chrome, version 70.0.3538.102
+Thread#3:T:Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Thread#3:T:Session Id: 51184bcbbe0b94a200892070f02af1cb
+Thread#0: Test #15/0 is finished on thread #0 as Succeeded within 43.7014369 seconds
+Appdomain Disposed
+Thread#2:T:Browser: chrome, version 70.0.3538.102
+Thread#2:T:Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Thread#2:T:Session Id: 2c9a3b6316138ebb1c5046e627f91e9e
+Thread#3:B:Given I am on the Angular2 Todo demo page
+Thread#3:T:done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (0.4s)
+Thread#3:B:When I add new tasks
+Thread#3:B:  --- table step argument ---
+Thread#3:B:  | Tasks        |
+Thread#3:B:  | My Task 1    |
+Thread#3:B:  | My Task Two  |
+Thread#3:B:  | My Task 3    |
+Thread#3:B:  | Another task |
+Thread#3:B:  | Final task   |
+Thread#4:T:done: ToDoSteps.WhenIAddNewTasks(<table>) (6.9s)
+Thread#4:B:Then I can see the correct tasks in the task list
+Thread#2:B:Given I am on the Angular2 Todo demo page
+Thread#4:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.9s)
+Thread#4:B:When I delete the tasks
+Thread#4:B:  --- table step argument ---
+Thread#4:B:  | Tasks     |
+Thread#4:B:  | My Task 3 |
+Thread#1:T:Browser: chrome, version 70.0.3538.102
+Thread#1:T:Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Thread#1:T:Session Id: 041aa67ca88e136c7fb4c50a1c8215b3
+Thread#2:T:done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (0.6s)
+Thread#2:B:When I add new tasks
+Thread#2:B:  --- table step argument ---
+Thread#2:B:  | Tasks        |
+Thread#2:B:  | My Task 1    |
+Thread#2:B:  | My Task Two  |
+Thread#2:B:  | My Task 3    |
+Thread#2:B:  | Another task |
+Thread#2:B:  | Final task   |
+Thread#4:T:done: ToDoSteps.WhenIDeleteTask(<table>) (1.5s)
+Thread#4:B:Then I can see the correct tasks in the task list
+Thread#4:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.9s)
+Thread#4:B:When I edit the tasks
+Thread#4:B:  --- table step argument ---
+Thread#4:B:  | Old Title  | New Title           |
+Thread#4:B:  | Final task | Last and least task |
+Thread#1:B:Given I am on the Angular2 Todo demo page
+Thread#1:T:done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (0.2s)
+Thread#1:B:When I add new tasks
+Thread#1:B:  --- table step argument ---
+Thread#1:B:  | Tasks        |
+Thread#1:B:  | My Task 1    |
+Thread#1:B:  | My Task Two  |
+Thread#1:B:  | My Task 3    |
+Thread#1:B:  | Another task |
+Thread#1:B:  | Final task   |
+Thread#3:T:done: ToDoSteps.WhenIAddNewTasks(<table>) (6.0s)
+Thread#3:B:Then I can see the correct tasks in the task list
+Thread#4:T:done: ToDoSteps.WhenIEditTheTasks(<table>) (2.3s)
+Thread#4:B:Then I can see the correct tasks in the task list
+Thread#3:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (1.1s)
+Thread#3:B:When I complete task
+Thread#3:B:  --- table step argument ---
+Thread#3:B:  | Tasks        |
+Thread#3:B:  | My Task 3    |
+Thread#3:B:  | Another Task |
+Thread#4:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.7s)
+Thread#4:B:When I edit the tasks
+Thread#4:B:  --- table step argument ---
+Thread#4:B:  | Old Title           | New Title          |
+Thread#4:B:  | Last and least task | Back to final task |
+Thread#4:B:  | My Task Two         | My Task 2          |
+Thread#3:T:done: ToDoSteps.WhenICompleteTask(<table>) (0.9s)
+Thread#3:B:Then I can see the number of items left is updated
+Thread#3:T:done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.2s)
+Thread#3:B:When I re-open task
+Thread#3:B:  --- table step argument ---
+Thread#3:B:  | Tasks     |
+Thread#3:B:  | My Task 3 |
+Thread#2:T:done: ToDoSteps.WhenIAddNewTasks(<table>) (6.0s)
+Thread#2:B:Then I can see the correct tasks in the task list
+Thread#3:T:done: ToDoSteps.WhenIReopenTask(<table>) (0.6s)
+Thread#3:B:Then I can see the number of items left is updated
+Thread#3:T:done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.1s)
+Thread#3:B:When I complete all tasks
+Thread#2:T:error:   Expected: equivalent to < "My Task 1", "My Task Two", "My Task 3", "Another task", "Final task" >
+Thread#2:T:  But was:  < "My Task 1", "My Task Two", "My Tas", "Another task", "Finhal taskha" >
+Thread#2:T:  Missing (2): < "My Task 3", "Final task" >
+Thread#2:T:  Extra (2): < "My Tas", "Finhal taskha" >
+Thread#2:B:When I complete task
+Thread#2:B:  --- table step argument ---
+Thread#2:B:  | Tasks        |
+Thread#2:B:  | My Task 3    |
+Thread#2:B:  | Another Task |
+Thread#2:T:skipped because of previous errors
+Thread#2:B:Then I can see the number of items left is updated
+Thread#2:T:skipped because of previous errors
+Thread#2:B:When I re-open task
+Thread#2:B:  --- table step argument ---
+Thread#2:B:  | Tasks     |
+Thread#2:B:  | My Task 3 |
+Thread#2:T:skipped because of previous errors
+Thread#2:B:Then I can see the number of items left is updated
+Thread#2:T:skipped because of previous errors
+Thread#2:B:When I complete all tasks
+Thread#2:T:skipped because of previous errors
+Thread#2:B:Then I can see the number of items left is updated
+Thread#2:T:skipped because of previous errors
+Thread#2:B:And the task list looks as usual (2)
+Thread#2:T:skipped because of previous errors
+Thread#2:B:When I clear all completed tasks
+Thread#2:T:skipped because of previous errors
+Thread#2:B:Then I can see no tasks in the task list
+Thread#2:T:skipped because of previous errors
+Thread#2:B:And the task list looks as usual (3)
+Thread#2:T:skipped because of previous errors
+Thread#2:TestItem#18:Scheduler: reschedule tests for testitem #18
+Thread#2:Scheduler: get next test for thread 2
+Thread#:Scheduler: dequeuing a rescheduled testitem: #18
+Thread#2:Scheduler: considering testitem #18 for thread 2
+Thread#2:TestItem#18:testItemMatchesCurrentTestThread:UnSpecific
+Thread#2:TestItem#18:runsOnOneOtherThreadSpecific:False
+Thread#2:TestItem#18:runsOnOneOtherThreadUnspecific:True
+Thread#2:Scheduler: using testitem #18 for thread 2
+Thread#2:Scheduler: Test #18 is scheduled for thread
+Thread#2:Scheduler: with testItemExecutionIndex 1
+Thread#3:T:done: ToDoSteps.WhenICompleteAllTasks() (1.0s)
+Thread#3:B:Then I can see the number of items left is updated
+Thread#3:T:done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.1s)
+Thread#3:B:When I clear all completed tasks
+Thread#3:T:done: ToDoSteps.WhenIClearAllCompletedTasks() (0.4s)
+Thread#3:B:Then I can see no tasks in the task list
+Thread#1:T:done: ToDoSteps.WhenIAddNewTasks(<table>) (5.3s)
+Thread#1:B:Then I can see the correct tasks in the task list
+Thread#2:T:Screenshot:
+Thread#2:T:file:///C:/Users/Andreas_2/Development/screenshots/errors/20181125/error_ToDoCompleteReOpenAndClearCompletedToDoItemsWithScreenshotComparison_20181125_154917440_screenshot.png
+Thread#2:T:C:\Users\Andreas_2\Development\screenshots\errors\20181125\error_ToDoCompleteReOpenAndClearCompletedToDoItemsWithScreenshotComparison_20181125_154917440_screenshot.png
+Thread#1:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.7s)
+Thread#1:B:When I delete the tasks
+Thread#1:B:  --- table step argument ---
+Thread#1:B:  | Tasks     |
+Thread#1:B:  | My Task 3 |
+Thread#4:T:done: ToDoSteps.WhenIEditTheTasks(<table>) (5.0s)
+Thread#4:B:Then I can see the correct tasks in the task list
+Thread#4:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.2s)
+Thread#4:B:And the task list looks as usual (1)
+Thread#2: Test #18/0 is finished on thread #2 as Failed within 20.3872173 seconds
+Thread#2: Test #18/1 is started on thread #2
+Thread#4:T:INFO: Metric: Absolute, Max Distortion: 10, Color Fuzz: 3%
+Thread#4:T:INFO: Actual Distortion: 0
+Thread#4:T:INFO: Image comparison with file C:\Users\Andreas_2\Development\screenshots\base\ToDo_1.png PASSED.
+Thread#4:T:done: ToDoSteps.ThenTheTaskListLooksAsUsual(1) (1.3s)
+Thread#4:B:When I delete all tasks
+Thread#1:T:done: ToDoSteps.WhenIDeleteTask(<table>) (4.1s)
+Thread#1:B:Then I can see the correct tasks in the task list
+Thread#3:T:done: ToDoSteps.ThenICanSeeNoTasksInTheTaskList() (5.1s)
+Thread#3:Scheduler: get next test for thread 3
+Thread#:Scheduler: at the end of normal test queue
+Thread#3:Scheduler: enumerator for thread is at end
+Thread#3:Scheduler: No more tests for thread
+Thread#1:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.6s)
+Thread#1:B:When I edit the tasks
+Thread#1:B:  --- table step argument ---
+Thread#1:B:  | Old Title  | New Title           |
+Thread#1:B:  | Final task | Last and least task |
+Thread#4:T:done: ToDoSteps.WhenIDeleteAllTasks() (2.2s)
+Thread#4:B:Then I can see no tasks in the task list
+Thread#1:T:done: ToDoSteps.WhenIEditTheTasks(<table>) (0.7s)
+Thread#1:B:Then I can see the correct tasks in the task list
+Thread#1:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.2s)
+Thread#1:B:When I edit the tasks
+Thread#1:B:  --- table step argument ---
+Thread#1:B:  | Old Title           | New Title          |
+Thread#1:B:  | Last and least task | Back to final task |
+Thread#1:B:  | My Task Two         | My Task 2          |
+Thread#2:T:Browser: chrome, version 70.0.3538.102
+Thread#2:T:Driver: OpenQA.Selenium.Remote.RemoteWebDriver
+Thread#2:T:Session Id: 6c685cc957ec5628ab8c74298f2a8767
+Thread#3: Test #16/0 is finished on thread #3 as Succeeded within 27.5427211 seconds
+Appdomain Disposed
+Appdomain Disposed
+Thread#1:T:done: ToDoSteps.WhenIEditTheTasks(<table>) (1.6s)
+Thread#1:B:Then I can see the correct tasks in the task list
+Thread#1:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.3s)
+Thread#1:B:And the task list looks as usual (1)
+Thread#2:B:Given I am on the Angular2 Todo demo page
+Thread#2:T:done: ToDoSteps.GivenIAmOnTheAngularTodoDemoPage() (0.0s)
+Thread#2:B:When I add new tasks
+Thread#2:B:  --- table step argument ---
+Thread#2:B:  | Tasks        |
+Thread#2:B:  | My Task 1    |
+Thread#2:B:  | My Task Two  |
+Thread#2:B:  | My Task 3    |
+Thread#2:B:  | Another task |
+Thread#2:B:  | Final task   |
+Thread#4:T:done: ToDoSteps.ThenICanSeeNoTasksInTheTaskList() (5.0s)
+Thread#4:Scheduler: get next test for thread 4
+Thread#:Scheduler: at the end of normal test queue
+Thread#4:Scheduler: enumerator for thread is at end
+Thread#4:Scheduler: No more tests for thread
+Thread#2:T:done: ToDoSteps.WhenIAddNewTasks(<table>) (2.5s)
+Thread#2:B:Then I can see the correct tasks in the task list
+Thread#2:T:done: ToDoSteps.ThenICanSeeTheNewTasksInTheTaskList() (0.5s)
+Thread#2:B:When I complete task
+Thread#2:B:  --- table step argument ---
+Thread#2:B:  | Tasks        |
+Thread#2:B:  | My Task 3    |
+Thread#2:B:  | Another Task |
+Thread#1:T:INFO: Metric: Absolute, Max Distortion: 10, Color Fuzz: 3%
+Thread#1:T:INFO: Actual Distortion: 0
+Thread#1:T:INFO: Image comparison with file C:\Users\Andreas_2\Development\screenshots\base\ToDo_1.png PASSED.
+Thread#1:T:done: ToDoSteps.ThenTheTaskListLooksAsUsual(1) (4.4s)
+Thread#1:B:When I delete all tasks
+Thread#4: Test #8/1 is finished on thread #4 as Succeeded within 37.3827143 seconds
+Appdomain Disposed
+Thread#2:T:done: ToDoSteps.WhenICompleteTask(<table>) (1.0s)
+Thread#2:B:Then I can see the number of items left is updated
+Thread#2:T:done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.2s)
+Thread#2:B:When I re-open task
+Thread#2:B:  --- table step argument ---
+Thread#2:B:  | Tasks     |
+Thread#2:B:  | My Task 3 |
+Thread#1:T:done: ToDoSteps.WhenIDeleteAllTasks() (1.4s)
+Thread#1:B:Then I can see no tasks in the task list
+Thread#2:T:done: ToDoSteps.WhenIReopenTask(<table>) (0.3s)
+Thread#2:B:Then I can see the number of items left is updated
+Thread#2:T:done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.1s)
+Thread#2:B:When I complete all tasks
+Thread#2:T:done: ToDoSteps.WhenICompleteAllTasks() (0.6s)
+Thread#2:B:Then I can see the number of items left is updated
+Thread#2:T:done: ToDoSteps.ThenICanSeeTheNumberOfItemsLeftIsDUpdated() (0.1s)
+Thread#2:B:And the task list looks as usual (2)
+Thread#2:T:INFO: Metric: Absolute, Max Distortion: 10, Color Fuzz: 3%
+Thread#2:T:INFO: Actual Distortion: 0
+Thread#2:T:INFO: Image comparison with file C:\Users\Andreas_2\Development\screenshots\base\ToDo_2.png PASSED.
+Thread#2:T:done: ToDoSteps.ThenTheTaskListLooksAsUsual(2) (1.2s)
+Thread#2:B:When I clear all completed tasks
+Thread#2:T:done: ToDoSteps.WhenIClearAllCompletedTasks() (0.2s)
+Thread#2:B:Then I can see no tasks in the task list
+Thread#1:T:done: ToDoSteps.ThenICanSeeNoTasksInTheTaskList() (5.0s)
+Thread#1:Scheduler: get next test for thread 1
+Thread#:Scheduler: at the end of normal test queue
+Thread#1:Scheduler: enumerator for thread is at end
+Thread#1:Scheduler: No more tests for thread
+Thread#1: Test #17/0 is finished on thread #1 as Succeeded within 37.5018495 seconds
+Appdomain Disposed
+Appdomain Disposed
+Thread#2:T:done: ToDoSteps.ThenICanSeeNoTasksInTheTaskList() (5.1s)
+Thread#2:B:And the task list looks as usual (3)
+Thread#2:T:INFO: Metric: Absolute, Max Distortion: 10, Color Fuzz: 3%
+Thread#2:T:INFO: Actual Distortion: 0
+Thread#2:T:INFO: Image comparison with file C:\Users\Andreas_2\Development\screenshots\base\ToDo_3.png PASSED.
+Thread#2:T:done: ToDoSteps.ThenTheTaskListLooksAsUsual(3) (1.0s)
+Thread#2:Scheduler: get next test for thread 2
+Thread#:Scheduler: at the end of normal test queue
+Thread#2:Scheduler: enumerator for thread is at end
+Thread#2:Scheduler: No more tests for thread
+Thread#2: Test #18/1 is finished on thread #2 as Succeeded within 20.2909472 seconds
+Appdomain Disposed
+Appdomain Disposed
+Thread#-1:Scheduler: get next test for thread -1
+Thread#:Scheduler: at the end of normal test queue
+Thread#-1:Scheduler: enumerator for thread is at end
+2018-11-25T15:49:41.1303743+11:00;Thread#12;Info;test run finished
+2018-11-25T15:49:41.1459743+11:00;Thread#12;Info;publishing test results
+2018-11-25T15:49:41.1459743+11:00;Thread#12;Info;test results published
+2018-11-25T15:49:41.1459743+11:00;Thread#12;Info;generating reports
+2018-11-25T15:49:41.1615743+11:00;Thread#12;Info;creating 1 report(s)
+2018-11-25T15:49:41.1615743+11:00;Thread#12;Info;generate Report ReportTemplate.cshtml
+2018-11-25T15:49:43.2207779+11:00;Thread#12;Info;reports generated
+Total: 8 (test executions: 10)
+Succeeded: 6
+Ignored: 0
+Pending: 0
+Skipped: 0
+Failed: 2
+2018-11-25T15:49:43.2207779+11:00;VSTestExecutionThread;Info;Adding attachments to VSTest
+2018-11-25T15:49:43.2207779+11:00;VSTestExecutionThread;Info;adding Test Execution Report 'C:\Users\Andreas_2\Development\sources\web-test-automation\TestResults\TestProject1_TestProject1_2018-11-25T154808.html'
+2018-11-25T15:49:43.2363780+11:00;VSTestExecutionThread;Info;Log file: file:///C:\Users\Andreas_2\Development\sources\web-test-automation\TestResults\TestProject1_TestProject1_2018-11-25T154808.log
