@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NDesk.Options;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,13 +11,30 @@ namespace SpecRunLog2Playlist
         static TextReader input = Console.In;
         static void Main(string[] args)
         {
-            if (args.Any())
+            string inputFile;
+            string inputStatus = string.Empty;
+            string filter = string.Empty;
+            var p = new OptionSet {
+                { "f|filter",  v => filter = v },
+            };
+            List<string> optionValues = p.Parse(args);
+
+            if (!args.Any())
+                Console.WriteLine("ERROR: A SecRun log file path is required as input.");
+
+            if (filter.IsNullOrEmpty())
             {
-                var path = args[0];
-                if (File.Exists(path))
-                {
-                    input = File.OpenText(path);
-                }
+                inputFile = optionValues[0];
+            }
+            else
+            {
+                inputFile = optionValues[1];
+                inputStatus = optionValues[0];
+            }
+
+            if (File.Exists(inputFile))
+            {
+                input = File.OpenText(inputFile);
             }
 
             var tests = new Dictionary<string, TestItem>();
@@ -42,9 +60,10 @@ namespace SpecRunLog2Playlist
                 }
             }
 
+            var filteredTests = tests.Where(t => t.Value.Status.Equals(inputStatus)).ToDictionary(x => x.Key, x => x.Value);
 
             Console.WriteLine("<Playlist Version=\"1.0\">");
-            foreach (var test in tests)
+            foreach (var test in filteredTests)
             {
                 var p1 = test.Value.Assembly;
                 var p2 = test.Value.Feature;
