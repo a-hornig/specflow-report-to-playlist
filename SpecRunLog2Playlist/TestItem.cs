@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpecFlowReport2Playlist
+namespace SpecRunLog2Playlist
 {
     public class TestItem
     {
