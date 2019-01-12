@@ -9,18 +9,28 @@ namespace SpecRunLog2Playlist
     class Program
     {
         static TextReader input = Console.In;
+
         static void Main(string[] args)
         {
+            bool showHelp = false;
             string inputFile;
             string inputStatus = string.Empty;
             string filter = string.Empty;
             var p = new OptionSet {
-                { "f|filter",  v => filter = v },
+                { "h|help",  "show this message and exit", v => showHelp = v != null },
+                { "s|status",  "filter on test status Succeeded|Failed|Pending", v => filter = v }
             };
             List<string> optionValues = p.Parse(args);
 
+            if (showHelp)
+            {
+                ShowHelpAndExit(p);
+            }
+
             if (!args.Any())
-                Console.WriteLine("ERROR: A SecRun log file path is required as input.");
+            {
+                ShowHelpAndExit(p, "ERROR: A SpecRun log file path is required as input.\n");
+            }
 
             if (filter.IsNullOrEmpty())
             {
@@ -36,6 +46,10 @@ namespace SpecRunLog2Playlist
             {
                 input = File.OpenText(inputFile);
             }
+            else
+            {
+                ShowHelpAndExit(p, "ERROR: The SpecRun log file does not exist.\n");
+            }
 
             var tests = new Dictionary<string, TestItem>();
 
@@ -49,7 +63,7 @@ namespace SpecRunLog2Playlist
                         Id = id,
                         Text = line.GetRegExMatch(@"(Target|TestAssembly):.*"),
                         Assembly = line.GetRegExCaptureGroup(@"Assembly:([^/]+)"),
-                        Feature = line.GetRegExCaptureGroup(@"Feature:([^/]+)"),
+                        Feature = line.GetRegExCaptureGroup(@"Feature:([^/]+)").Replace("+",""),
                     });
                 }
                 else if (line.IsRegExMatch(@"Test #\d+/\d is finished"))
@@ -60,7 +74,7 @@ namespace SpecRunLog2Playlist
                 }
             }
 
-            var filteredTests = tests.Where(t => t.Value.Status.Equals(inputStatus)).ToDictionary(x => x.Key, x => x.Value);
+            var filteredTests = inputStatus.IsNullOrEmpty() ? tests : tests.Where(t => t.Value.Status.Equals(inputStatus)).ToDictionary(x => x.Key, x => x.Value);
 
             Console.WriteLine("<Playlist Version=\"1.0\">");
             foreach (var test in filteredTests)
@@ -72,5 +86,17 @@ namespace SpecRunLog2Playlist
             }
             Console.WriteLine("</Playlist>");
         }
+
+        static void ShowHelpAndExit(OptionSet p, string errorMessage = "")
+        {
+            Console.WriteLine(errorMessage);
+            Console.WriteLine("Usage: specRunLog2Playlist [-s <testStatusValue>] <specrunlog>");
+            Console.WriteLine("Create a VS test playlist from a SpecRun log file.\n");
+            Console.WriteLine("Options:");
+            p.WriteOptionDescriptions(Console.Out);
+            Environment.Exit(1);
+        }
     }
 }
+
+
