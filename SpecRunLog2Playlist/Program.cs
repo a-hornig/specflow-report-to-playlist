@@ -16,9 +16,12 @@ namespace SpecRunLog2Playlist
             string inputFile;
             string inputStatus = string.Empty;
             string filter = string.Empty;
+            bool ignoreRetries = false;
+
             var p = new OptionSet {
                 { "h|help",  "show this message and exit", v => showHelp = v != null },
-                { "s|status",  "filter on test status Succeeded|Failed|Pending", v => filter = v }
+                { "s|status",  "filter on test status Succeeded|Failed|Pending", v => filter = v },
+                { "i|ignoreRetries", "ignore retries, otherwise the status of the last test execution will be used when filtering", v => ignoreRetries = v != null }
             };
             List<string> optionValues = p.Parse(args);
 
@@ -63,14 +66,18 @@ namespace SpecRunLog2Playlist
                         Id = id,
                         Text = line.GetRegExMatch(@"(Target|TestAssembly):.*"),
                         Assembly = line.GetRegExCaptureGroup(@"Assembly:([^/]+)"),
-                        Feature = line.GetRegExCaptureGroup(@"Feature:([^/]+)").Replace("+",""),
+                        Feature = line.GetRegExCaptureGroup(@"Feature:([^/]+)").Replace("+", ""),
                     });
                 }
                 else if (line.IsRegExMatch(@"Test #\d+/\d is finished"))
                 {
                     var id = line.GetRegExCaptureGroup(@"Test (#\d+)");
-                    tests[id].Status = line.GetRegExCaptureGroup(@"(\S+)\swithin");
+                    var status = line.GetRegExCaptureGroup(@"(\S+)\swithin");
                     // with retries only the last status will be used
+                    if (tests[id].Status.IsNullOrEmpty() || !ignoreRetries)
+                    {
+                        tests[id].Status = status;
+                    }
                 }
             }
 
