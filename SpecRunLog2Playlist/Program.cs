@@ -58,9 +58,9 @@ namespace SpecRunLog2Playlist
 
             for (string line; (line = input.ReadLine()) != null;)
             {
-                if (line.IsRegExMatch(@"^#\d+.*TestAssembly:"))
+                if (line.IsRegExMatch(@"#\d+.*TestAssembly:"))
                 {
-                    var id = line.GetRegExMatch(@"^#\d+");
+                    var id = line.GetRegExMatch(@"#\d+");
                     tests.Add(id, new TestItem
                     {
                         Id = id,
